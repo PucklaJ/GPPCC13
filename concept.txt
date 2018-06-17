@@ -1,0 +1,27 @@
+GPPCC13 game
+
+First Person Action Game
+Arena shooter style
+Weapon:
+    Sword:
+        Fast and low damage
+    Hammer:
+        Slow and high damage
+Multiple Levels consisting of multiple objects
+Collectables:
+    Meat: For Health regeneration
+    Coin: For Points
+Health:
+    Shown in the HUD
+
+Levels:
+    Consits of AABBs, enemies and collectables
+
+Enemies:
+    Walk around and attack
+
+Points are shown on the HUD when achieved
+Weapons lie as collectables around
+Physics:
+    Everything is AABB
+    Gravity
