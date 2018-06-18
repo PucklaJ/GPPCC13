@@ -25,6 +25,7 @@ func (this *StartScene) loadResources() {
 	initEnemyModels()
 
 	gohome.ResourceMgr.LoadModelsWithSameName = false
+	gohome.RenderMgr.EnableBackBuffer = false
 }
 
 func (this *StartScene) initObjects() {
