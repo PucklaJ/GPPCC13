@@ -9,7 +9,7 @@ var world World
 
 type StartScene struct {
 	player Player
-	world World
+	world  World
 }
 
 func (this *StartScene) loadResources() {
@@ -19,13 +19,12 @@ func (this *StartScene) loadResources() {
 	preloadCollectablesResources()
 	preloadWeaponResources()
 	this.player.PreloadResources()
-	gohome.ResourceMgr.PreloadTexture("FloorTexture","Floor1.png")
+	gohome.ResourceMgr.PreloadTexture("FloorTexture", "Floor1.png")
 
 	gohome.ResourceMgr.LoadPreloadedResources()
 	initEnemyModels()
 
 	gohome.ResourceMgr.LoadModelsWithSameName = false
-	gohome.RenderMgr.EnableBackBuffer = false
 }
 
 func (this *StartScene) initObjects() {
@@ -43,14 +42,13 @@ func (this *StartScene) Init() {
 	this.loadResources()
 	this.initObjects()
 
-	gohome.LightMgr.SetAmbientLight(colornames.Gray,0)
+	gohome.LightMgr.SetAmbientLight(colornames.Gray, 0)
 	gohome.LightMgr.AddDirectionalLight(&gohome.DirectionalLight{
-		Direction: [3]float32{1.0,-1.0,0.0},
-		DiffuseColor: colornames.Khaki,
+		Direction:     [3]float32{1.0, -1.0, 0.0},
+		DiffuseColor:  colornames.Khaki,
 		SpecularColor: colornames.Lime,
-		CastsShadows: 0,
-	},0)
-
+		CastsShadows:  0,
+	}, 0)
 }
 
 func (this *StartScene) Update(delta_time float32) {
@@ -58,11 +56,13 @@ func (this *StartScene) Update(delta_time float32) {
 		gohome.RenderMgr.WireFrameMode = !gohome.RenderMgr.WireFrameMode
 	} else if gohome.InputMgr.JustPressed(gohome.KeyF11) {
 		if gohome.Framew.WindowIsFullscreen() {
-			gohome.Render.SetNativeResolution(1280,720)
+			gohome.Render.SetNativeResolution(1280, 720)
 		} else {
-			gohome.Render.SetNativeResolution(1920,1080)
+			gohome.Render.SetNativeResolution(1920, 1080)
 		}
 		gohome.Framew.WindowSetFullscreen(!gohome.Framew.WindowIsFullscreen())
+	} else if gohome.InputMgr.JustPressed(gohome.KeyF) {
+		gohome.Framew.WindowSetSize([2]float32{427, 240})
 	}
 
 	CheckCollectables(&this.player)
