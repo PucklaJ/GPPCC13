@@ -7,5 +7,5 @@ import (
 )
 
 func main() {
-	gohome.MainLop.Run(&framework.GLFWFramework{}, &renderer.OpenGLRenderer{}, 1280, 720, "GPPCC13", &StartScene{})
+	gohome.MainLop.Run(&framework.GLFWFramework{},&renderer.OpenGLRenderer{},1280,720,"GPPCC13",&StartScene{})
 }
