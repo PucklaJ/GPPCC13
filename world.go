@@ -31,13 +31,13 @@ func (this *World1) Init() {
 	this.sword.Transform.Position[2] = -5.0
 	this.sword.Transform.Position[0] = 3.0
 	this.sword.Transform.Position[1] = 5.0
-	this.sword.Transform.Rotation[0] = 90.0
+	this.sword.Transform.Rotation = mgl32.QuatRotate(mgl32.DegToRad(90.0),mgl32.Vec3{1.0,0.0,0.0})
 
 	this.hammer.InitName("Hammer")
 	this.hammer.Transform.Position[2] = -5.0
 	this.hammer.Transform.Position[0] = 6.0
 	this.hammer.Transform.Position[1] = 5.0
-	this.hammer.Transform.Rotation[0] = 90.0
+	this.hammer.Transform.Rotation = mgl32.QuatRotate(mgl32.DegToRad(90.0),mgl32.Vec3{1.0,0.0,0.0})
 
 	this.floor.InitMesh(gohome.Plane("Floor",[2]float32{FLOOR_SIZE,FLOOR_SIZE},FLOOR_TEXTURES_PER_FLOOR*FLOOR_SIZE))
 	floorMaterial := this.floor.Model3D.GetMeshIndex(0).GetMaterial()

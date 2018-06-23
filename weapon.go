@@ -3,7 +3,6 @@ package main
 import (
 	"github.com/PucklaMotzer09/gohomeengine/src/gohome"
 	"github.com/go-gl/mathgl/mgl32"
-	"golang.org/x/image/colornames"
 )
 
 type Weapon interface {
@@ -31,6 +30,11 @@ type Sword struct {
 
 	wantIdleTime float32
 	wantWalkTime float32
+	initialRotation mgl32.Quat
+}
+
+func quat(x,y,z float32) mgl32.Quat {
+	return mgl32.AnglesToQuat(mgl32.DegToRad(z),mgl32.DegToRad(y),mgl32.DegToRad(x),mgl32.ZYX)
 }
 
 func (this *Sword) Init() {
@@ -38,8 +42,8 @@ func (this *Sword) Init() {
 	this.Transform.Position[2] = -1.0
 	this.Transform.Position[1] = -1.0
 	this.Transform.Position[0] = 1.0
-	this.Transform.Rotation[0] = 90.0
-	this.Transform.Rotation[2] = 90.0
+	this.Transform.Rotation = quat(0.0,-90.0,90.0)
+	this.initialRotation = this.Transform.Rotation
 	this.NotRelativeToCamera = 0
 
 	gohome.RenderMgr.AddObject(this)
@@ -47,32 +51,33 @@ func (this *Sword) Init() {
 	this.attackAnimation = gohome.Tweenset{
 		Tweens:[]gohome.Tween{
 			&gohome.TweenPosition3D{Destination:mgl32.Vec3{-0.7,-0.7,-1.0},Time:0.3,TweenType:gohome.TWEEN_TYPE_AFTER_PREVIOUS},
-			&gohome.TweenRotation3D{Destination:mgl32.Vec3{0.0,0.0,45.0},Time:0.3,TweenType:gohome.TWEEN_TYPE_WITH_PREVIOUS},
+			&gohome.TweenRotation3D{Destination:quat(0.0,0.0,45.0),Time:0.3,TweenType:gohome.TWEEN_TYPE_WITH_PREVIOUS},
 			&gohome.TweenPosition3D{Destination:mgl32.Vec3{1.0,-1.0,-1.0},Time:0.1,TweenType:gohome.TWEEN_TYPE_AFTER_PREVIOUS},
-			&gohome.TweenRotation3D{Destination:mgl32.Vec3{90.0,0.0,90.0},Time:0.1,TweenType:gohome.TWEEN_TYPE_WITH_PREVIOUS},
+			&gohome.TweenRotation3D{Destination:this.initialRotation,Time:0.1,TweenType:gohome.TWEEN_TYPE_WITH_PREVIOUS},
 		},
 		Loop: false,
 	}
 
 	this.idleAnimation = gohome.Tweenset{
 		Tweens:[]gohome.Tween{
-			&gohome.TweenRotation3D{Destination:mgl32.Vec3{100.0,20.0,95.0},Time:0.75*2.0,TweenType:gohome.TWEEN_TYPE_AFTER_PREVIOUS},
+			&gohome.TweenRotation3D{Destination:quat(10.0,-100.0,100.0),Time:0.75*2.0,TweenType:gohome.TWEEN_TYPE_AFTER_PREVIOUS},
 			&gohome.TweenPosition3D{Destination:mgl32.Vec3{1.0,-0.8,-1.0},Time:0.75*2.0,TweenType:gohome.TWEEN_TYPE_WITH_PREVIOUS},
-			&gohome.TweenRotation3D{Destination:mgl32.Vec3{80.0,-20.0,85.0},Time:1.5*2.0,TweenType:gohome.TWEEN_TYPE_AFTER_PREVIOUS},
+			&gohome.TweenRotation3D{Destination:quat(-10.0,-80.0,85.0),Time:1.5*2.0,TweenType:gohome.TWEEN_TYPE_AFTER_PREVIOUS},
 			&gohome.TweenPosition3D{Destination:mgl32.Vec3{1.0,-1.2,-1.0},Time:1.5*2.0,TweenType:gohome.TWEEN_TYPE_WITH_PREVIOUS},
-			&gohome.TweenRotation3D{Destination:mgl32.Vec3{90.0,0.0,90.0},Time:0.75*2.0,TweenType:gohome.TWEEN_TYPE_AFTER_PREVIOUS},
+			&gohome.TweenRotation3D{Destination:this.initialRotation,Time:0.75*2.0,TweenType:gohome.TWEEN_TYPE_AFTER_PREVIOUS},
 			&gohome.TweenPosition3D{Destination:mgl32.Vec3{1.0,-1.0,-1.0},Time:0.75*2.0,TweenType:gohome.TWEEN_TYPE_WITH_PREVIOUS},
 		},
 		Loop: true,
 	}
 
+
 	this.walkAnimation = gohome.Tweenset{
 		Tweens:[]gohome.Tween{
-			&gohome.TweenRotation3D{Destination:mgl32.Vec3{110.0,0.0,95.0},Time:0.75*0.5,TweenType:gohome.TWEEN_TYPE_AFTER_PREVIOUS},
+			&gohome.TweenRotation3D{Destination:quat(0.0,-80.0,95.0),Time:0.75*0.5,TweenType:gohome.TWEEN_TYPE_AFTER_PREVIOUS},
 			&gohome.TweenPosition3D{Destination:mgl32.Vec3{1.0,-0.8,-1.0},Time:0.75*0.5,TweenType:gohome.TWEEN_TYPE_WITH_PREVIOUS},
-			&gohome.TweenRotation3D{Destination:mgl32.Vec3{70.0,0.0,85.0},Time:1.5*0.5,TweenType:gohome.TWEEN_TYPE_AFTER_PREVIOUS},
+			&gohome.TweenRotation3D{Destination:quat(0.0,-100.0,85.0),Time:1.5*0.5,TweenType:gohome.TWEEN_TYPE_AFTER_PREVIOUS},
 			&gohome.TweenPosition3D{Destination:mgl32.Vec3{1.0,-1.2,-1.0},Time:1.5*0.5,TweenType:gohome.TWEEN_TYPE_WITH_PREVIOUS},
-			&gohome.TweenRotation3D{Destination:mgl32.Vec3{90.0,0.0,90.0},Time:0.75*0.5,TweenType:gohome.TWEEN_TYPE_AFTER_PREVIOUS},
+			&gohome.TweenRotation3D{Destination:this.initialRotation,Time:0.75*0.5,TweenType:gohome.TWEEN_TYPE_AFTER_PREVIOUS},
 			&gohome.TweenPosition3D{Destination:mgl32.Vec3{1.0,-1.0,-1.0},Time:0.75*0.5,TweenType:gohome.TWEEN_TYPE_WITH_PREVIOUS},
 		},
 		Loop: true,
@@ -139,12 +144,6 @@ func (this *Sword) GetHitBox(player *Player) gohome.AxisAlignedBoundingBox {
 
 	aabb.Min = gohome.Mat4MulVec3(player.fpc.camera.GetInverseViewMatrix(),[3]float32{-1.0,-2.0,-3.0})
 	aabb.Max = gohome.Mat4MulVec3(player.fpc.camera.GetInverseViewMatrix(),[3]float32{1.0,1.0,0.0})
-
-	var debug gohome.AABBRenderer
-
-	debug.Init(&aabb,nil,colornames.Blue)
-	debug.Load()
-	gohome.RenderMgr.AddObject(&debug)
 
 	return aabb
 }

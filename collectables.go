@@ -84,14 +84,14 @@ type Coin struct {
 func (this *Coin) Init(position mgl32.Vec3) {
 	this.entity.InitName("Coin")
 	this.entity.Transform.Position = position
-	this.entity.Transform.Rotation[0] = 90.0
+	this.entity.Transform.Rotation = mgl32.QuatRotate(mgl32.DegToRad(90.0),mgl32.Vec3{1.0,0.0,0.0})
 
 	gohome.UpdateMgr.AddObject(this)
 	gohome.RenderMgr.AddObject(&this.entity)
 }
 
 func (this *Coin) Update(delta_time float32) {
-	this.entity.Transform.Rotation[2] += 30.0 * delta_time
+	this.entity.Transform.Rotation = this.entity.Transform.Rotation.Mul(mgl32.QuatRotate(mgl32.DegToRad(30.0*delta_time),mgl32.Vec3{0.0,0.0,1.0}))
 }
 
 func (this *Coin) OnCollect(player *Player) {
