@@ -39,6 +39,9 @@ func (this *StartScene) Init() {
 	gohome.InitDefaultValues()
 	gohome.ErrorMgr.ErrorLevel = gohome.ERROR_LEVEL_WARNING
 
+	gohome.UpdateMgr.AddObject(&PhysicsMgr)
+	gohome.UpdateMgr.AddObject(&PhysicsEntityCon)
+
 	this.loadResources()
 	this.initObjects()
 
